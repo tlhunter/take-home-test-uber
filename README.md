@@ -7,7 +7,7 @@ This emits sample data following the criteria specified in the "Dispatch Backend
 This happens over a TCP socket, specified as the only argument to the script.
 
 ```
-node emitter.js 2900
+emitter.js 2900
 ```
 
 
@@ -18,7 +18,7 @@ This is the tool which consumes the data.
 It also provides an HTTP server for getting data.
 
 ```
-node service.js 2900 80
+service.js 2900 80
 ```
 
 
