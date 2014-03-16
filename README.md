@@ -1,5 +1,15 @@
 # Uber Code Challenge by Thomas Hunter
 
+## Requirements
+
+This project makes heavy use of redis. You'll need to install the service to get it working.
+
+## Installation
+
+```
+npm install
+```
+
 ## Sample Data Server
 
 This emits sample data following the criteria specified in the "Dispatch Backend" document.
@@ -7,7 +17,7 @@ This emits sample data following the criteria specified in the "Dispatch Backend
 This happens over a TCP socket, specified as the only argument to the script.
 
 ```
-emitter.js 2900
+./emitter.js 2900
 ```
 
 
@@ -18,7 +28,7 @@ This is the tool which consumes the data.
 It also provides an HTTP server for getting data.
 
 ```
-service.js 2900 80
+./service.js 2900 8000
 ```
 
 
