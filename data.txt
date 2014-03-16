@@ -1,0 +1,15 @@
+LAT / LNG bounds for SF:
+    NE:
+        lat:   37.814039
+        lng: -122.359200
+    SW:
+        lat:   37.704382
+        lng: -122.514381
+
+LAT / LNG bounds for Mission bay:
+    NW:
+        lat: 37.777058
+        lng: -122.401729
+    SE:
+        lat: 37.763998
+        lng: -122.380357
