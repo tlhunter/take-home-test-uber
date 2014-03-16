@@ -4,18 +4,18 @@ var net = require('net');
 var http = require('http');
 var async = require('async');
 var pg = require('pg').native;
-var postgres; // PG connection
+
+var pg_conn_string = "postgres://centric:EKG2Wk_rTtBPT54p@127.0.0.1/centric";
+var postgres = new pg.Client(pg_conn_string); // PG connection
 
 var tcp_port = process.argv[2];
 var http_port = process.argv[3];
-var pg_conn_string = "postgres://centric:EKG2Wk_rTtBPT54p@127.0.0.1/centric";
 
 async.waterfall([
   // Step 1: Establish PgSQL connection
   function(callback) {
 	console.log("Connecting to PgSQL...");
-	pg.Client(pg_conn_string).connect(function(err, connection) {
-	  postgres = connection;
+	postgres.connect(function(err) {
 	  callback(err);
 	});
   },
@@ -32,6 +32,13 @@ async.waterfall([
 		if (!event) return; // The last item is an empty string due to the trailing \r\n emitted from the emitter
 		var obj = JSON.parse(event);
 		console.log(obj);
+		postgres.query("INSERT INTO events (event, tripId, lat, lng, fare) VALUES ($1, $2, $3, $4, $5);", [
+		  obj.event,
+		  obj.tripId,
+		  obj.lat,
+		  obj.lng,
+		  obj.fare || null
+		]);
 	  });
 	});
 
@@ -45,8 +52,12 @@ async.waterfall([
 	console.log("Listening for HTTP Requests...");
 	http.createServer(function(req, res) {
 	  if (req.url == '/trip-count') {
+		console.log(req.params);
+		// SELECT COUNT(DISTINCT tripId) AS count FROM events WHERE lat > 37.763998 AND lat < 37.777058 AND lng < -122.380357 AND lng > -122.401729;
 	  } else if (req.url == '/fare-sum') {
+		// SELECT SUM(fare) AS fare_sum, COUNT(fare) AS trip_count FROM events WHERE tripId IN (SELECT DISTINCT tripId FROM events WHERE lat > 37.763998 AND lat < 37.777058 AND lng < -122.380357 AND lng > -122.401729 AND (event = 'begin' OR event = 'end')) AND event = 'end';
 	  } else if (req.url == '/snapshot-count') {
+		// SELECT (SELECT COUNT(*) FROM events WHERE event = 'begin' AND created < '2014-03-16 18:30:00'::TIMESTAMP) - (SELECT COUNT(*) FROM events WHERE event = 'end' AND created < '2014-03-16 18:30:00'::TIMESTAMP) AS total;
 	  } else {
 		res.statusCode = 404;
 		res.end('invalid url');

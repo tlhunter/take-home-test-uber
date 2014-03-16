@@ -75,3 +75,7 @@ The timestamp needs to be formatted as ISO 8601.
 	{
 	  "trip_count": 300
 	}
+
+## Benchmark Information
+
+On my Quad 2 Ghz Debian machine, with ~300k rows of event data, the SQL queries take between 10ms and 20ms to execute.
