@@ -71,18 +71,13 @@ var create_trip = function() {
   });
 };
 
-// Seed some in-progress trips
-for (var i = 1; i <= average_concurrent_trips; i++) {
-  create_trip();
-}
-
 var tick = function() {
   // Move each car randomly
   var i = 0;
   trips.forEach(function(trip) {
 	var action_threshold = Math.random();
 
-	if (action_threshold < 0.005) { // Trip Ends
+	if (action_threshold < 0.01) { // Trip Ends
 	  setTimeout(function() {
 		announce({
 		  event: 'end',
@@ -111,13 +106,28 @@ var tick = function() {
 	i += 1.8; // slightly less than 2ms, which would be a continuous broadcast and could have race conditions
   });
 
-  // Create new trips to catch back up to the average
-  for (var i = 0; i < (average_concurrent_trips - trips.length); i++) {
-	create_trip();
+  // Occasionally create new trips and attempt to catch up to the average
+  if (Math.random() < 0.75) {
+	for (var i = 0; i < (average_concurrent_trips + 5 - trips.length); i++) {
+	  if (Math.random() < 0.65) {
+		create_trip();
+	  }
+	}
   }
+
+  console.log("Concurrent Trips: " + trips.length);
 };
 
-setInterval(tick, update_interval);
+console.log("Waiting 5 seconds before starting simulation. Connect clients now...");
+setTimeout(function() {
+  console.log("Commencing.");
+  // Seed some in-progress trips
+  for (var i = 1; i <= average_concurrent_trips; i++) {
+	create_trip();
+  }
+
+  setInterval(tick, update_interval);
+}, 5 * 1000);
 
 server.listen(tcp_port, function() {
   console.log('Emitting sample data on port:', tcp_port);
