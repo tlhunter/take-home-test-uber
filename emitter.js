@@ -42,6 +42,13 @@ var server = net.createServer(function(connection) {
 
   connection.on('end', function() {
 	// Remove from list of clients
+	console.log("Client is disconnecting gracefully. Removing from client pool.");
+    clients.splice(clients.indexOf(connection), 1);
+  });
+
+  connection.on('error', function(err) {
+	// Remove from list of clients
+	console.log("Client is disconnecting uncleanly. Removing from client pool.");
     clients.splice(clients.indexOf(connection), 1);
   });
 });
@@ -71,38 +78,43 @@ for (var i = 1; i <= average_concurrent_trips; i++) {
 
 var tick = function() {
   // Move each car randomly
+  var i = 0;
   trips.forEach(function(trip) {
 	var action_threshold = Math.random();
 
-	if (action_threshold < 0.001) { // Trip Ends
-	  announce({
-		event: 'end',
-		tripId: trip.tripId,
-		lat: trip.lat,
-		lng: trip.lng,
-		fare: Math.floor(Math.random() * 20) + 10,
-	  });
+	if (action_threshold < 0.005) { // Trip Ends
+	  setTimeout(function() {
+		announce({
+		  event: 'end',
+		  tripId: trip.tripId,
+		  lat: trip.lat,
+		  lng: trip.lng,
+		  fare: Math.floor(Math.random() * 20) + 10,
+		});
+	  }, i);
 
 	  trips.splice(trips.indexOf(trip), 1);
 
 	} else { // Car Drives
 	  trip.lat += Math.random() * 0.01 - 0.005;
 	  trip.lng += Math.random() * 0.01 - 0.005;
-	  announce({
-		event: 'update',
-		tripId: trip.tripId,
-		lat: trip.lat,
-		lng: trip.lng,
-	  });
+	  setTimeout(function() {
+		announce({
+		  event: 'update',
+		  tripId: trip.tripId,
+		  lat: trip.lat,
+		  lng: trip.lng,
+		});
+	  }, i);
 	}
+
+	i += 1.8; // slightly less than 2ms, which would be a continuous broadcast and could have race conditions
   });
 
   // Create new trips to catch back up to the average
   for (var i = 0; i < (average_concurrent_trips - trips.length); i++) {
 	create_trip();
   }
-
-  console.log(trips);
 };
 
 setInterval(tick, update_interval);
