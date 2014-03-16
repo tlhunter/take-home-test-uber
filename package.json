@@ -9,7 +9,7 @@
 	"service": "./service.js 2900 8000"
   },
   "dependencies": {
-	"redis": "0.10.x"
+	"pg": "2.11.x"
   },
   "engines": {
 	"node": "0.10.x"
