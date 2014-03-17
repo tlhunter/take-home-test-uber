@@ -38,7 +38,7 @@ If you were to actually examine the coordinates, you'd see a lot of drunk Uber d
 This is the tool which consumes the data.
 It also provides an HTTP server for getting data.
 
-Incoming data is immediately put into a PgSQL.
+Incoming data is immediately put into a PgSQL table.
 Two connections are made, one for writes and one for reads, to maximize performance.
 
 ```
@@ -48,7 +48,7 @@ Two connections are made, one for writes and one for reads, to maximize performa
 
 ### HTTP Endpoints
 
-The service provides three HTTP endpoints for answering the questions provided in the "Dispatch Backend" document.
+The service provides three HTTP endpoints for answering the questions asked in the "Dispatch Backend" document.
 
 
 #### Count Trips within Geo-Rect
