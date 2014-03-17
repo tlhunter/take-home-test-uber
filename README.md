@@ -28,6 +28,8 @@ It transmits data over a TCP socket, specified as the only argument to the scrip
 It's not technically part of the project, but the project would be quite boring without it ;).
 If you were to actually examine the coordinates, you'd see a lot of drunk Uber drivers changing directions erratically and driving in the bay.
 
+The service will start emitting simulation data as soon as the first client connects.
+
 ```
 ./emitter.js 2900
 ```
@@ -107,3 +109,9 @@ time curl http://localhost:8000/snapshot-count?timestamp=2014-03-16T18:30:00Z
 ## Benchmark Information
 
 On my Quad 2Ghz/8GB/RAM/SSD Debian laptop, with ~300k rows of event data, the SQL queries usually take between 10ms and 20ms to execute.
+
+
+## Known Issues
+
+If you kill the service and restart it, the data will get out of sync with the "real state" of the world.
+So it's best to kill both the server and the emitter, then start the emitter followed by the server.
