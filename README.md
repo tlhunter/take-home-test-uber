@@ -76,14 +76,16 @@ The timestamp needs to be formatted as ISO 8601.
 	  "trip_count": 300
 	}
 
+
 ## Benchmark Information
 
 On my Quad 2 Ghz Debian machine, with ~300k rows of event data, the SQL queries take between 10ms and 20ms to execute.
+
 
 ## Validating Code
 
 ```
 time curl http://localhost:8000/trip-count?p1_lat=37.777058&p1_lng=-122.401729&p2_lat=37.763998&p2_lng=-122.380357
 time curl http://localhost:8000/fare-sum?p1_lat=37.777058&p1_lng=-122.401729&p2_lat=37.763998&p2_lng=-122.380357
-time curl http://localhost:8000/snapshot-count?timestamp=2014-03-16 18:30:00
+time curl http://localhost:8000/snapshot-count?timestamp=2014-03-16T18:30:00Z
 ```
