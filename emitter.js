@@ -1,7 +1,22 @@
 #!/usr/bin/env node
 
+/**
+ * Uber Coding Challenge: Geotemporal Systems
+ * @author: Thomas Hunter <me@thomashunter.name>
+ *
+ * This program emits sample data.
+ * I wrote it hastily so that I could get to the real project,
+ * so please don't consider this a reflection of my skill!
+ */
 var net = require('net');
-var tcp_port = process.argv[2];
+
+// Grab Port Numbers from arguments
+var tcp_port = parseInt(process.argv[2], 10);
+
+if (!tcp_port) {
+  console.log("Usage: ./emitter.js <tcp_port>");
+  process.exit(1);
+}
 
 // Big ol' array of all concurrent trips
 var trips = [];
