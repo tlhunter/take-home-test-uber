@@ -19,6 +19,8 @@ Once that is done, you'll need to configure the project to connect to your Postg
 export PGSQL_CONN="postgres://USER:PASS@HOST/DB"
 ```
 
+You'll also want to execute the contents of `schema.sql` to create the necessary DB table.
+
 
 ## Sample Data Server
 
