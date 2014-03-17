@@ -18,6 +18,8 @@ if (!tcp_port) {
   process.exit(1);
 }
 
+var first_client_has_connected = false;
+
 // Big ol' array of all concurrent trips
 var trips = [];
 
@@ -54,6 +56,17 @@ var spawn = {
 var server = net.createServer(function(connection) {
   // Add to list of clients
   clients.push(connection);
+
+  if (!first_client_has_connected) {
+	console.log("The first client has connected. Starting simulation...");
+	first_client_has_connected = true;
+
+	for (var i = 1; i <= average_concurrent_trips; i++) {
+	  create_trip();
+	}
+
+	setInterval(tick, update_interval);
+  }
 
   connection.on('end', function() {
 	// Remove from list of clients
@@ -133,17 +146,7 @@ var tick = function() {
   console.log("Concurrent Trips: " + trips.length);
 };
 
-console.log("Waiting 5 seconds before starting simulation. Connect clients now...");
-setTimeout(function() {
-  console.log("Commencing.");
-  // Seed some in-progress trips
-  for (var i = 1; i <= average_concurrent_trips; i++) {
-	create_trip();
-  }
-
-  setInterval(tick, update_interval);
-}, 5 * 1000);
-
 server.listen(tcp_port, function() {
-  console.log('Emitting sample data on port:', tcp_port);
+  console.log("Listening on port:", tcp_port);
+  console.log("Waiting for the first client to connect before starting simulation.");
 });
