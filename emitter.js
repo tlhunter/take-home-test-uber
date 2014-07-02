@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Uber Coding Challenge: Geotemporal Systems
+ * TAXI Coding Challenge: Geotemporal Systems
  * @author: Thomas Hunter <me@thomashunter.name>
  *
  * This program emits sample data.

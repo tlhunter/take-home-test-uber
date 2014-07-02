@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Uber Coding Challenge: Geotemporal Systems
+ * Taxi Coding Challenge: Geotemporal Systems
  * @author: Thomas Hunter <me@thomashunter.name>
  *
  * This is the service described in the "Dispatch Backend" document.
@@ -55,9 +55,9 @@ async.auto({
 	pg_read.connect(callback);
   },
 
-  // Establish connection to Uber Emitter
-  uber: ['pg_write', function(callback) {
-	console.log("Connecting to Uber Car Position Emitter...");
+  // Establish connection to Taxi Emitter
+  taxi: ['pg_write', function(callback) {
+	console.log("Connecting to Taxi Car Position Emitter...");
 	net.connect({port: tcp_port}, callback)
 	  .on('data', function(data) {
 		// Convert socket to a string, remove the trailing newline, split on each line, and iterate
@@ -80,7 +80,7 @@ async.auto({
 		});
 	  })
 	  .on('end', function() {
-		console.log("No longer connected to Uber Emitter. Quitting.");
+		console.log("No longer connected to Taxi Emitter. Quitting.");
 		process.exit(0);
 	  });
   }],

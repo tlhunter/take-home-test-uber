@@ -1,4 +1,6 @@
-# Uber Coding Challenge: Geotemporal Systems by Thomas Hunter II
+# TAXI Coding Challenge
+
+This was my interview code submission for a Taxi company.
 
 ## Requirements
 
@@ -28,7 +30,7 @@ This emits sample data following the criteria outlined in the "Dispatch Backend"
 It transmits data over a TCP socket, specified as the only argument to the script.
 
 It's not technically part of the project, but the project would be quite boring without it ;).
-If you were to actually examine the coordinates, you'd see a lot of drunk Uber drivers changing directions erratically and driving in the bay.
+If you were to actually examine the coordinates, you'd see a lot of drunk Taxi drivers changing directions erratically and driving in the bay.
 
 The service will start emitting simulation data as soon as the first client connects.
 

@@ -1,9 +1,9 @@
 {
-  "name": "uber-test",
+  "name": "taxi-test",
   "private": true,
   "version": "0.0.1",
   "author": "Thomas Hunter II <me@thomashunter.name>",
-  "description": "Programming Challenge for Uber",
+  "description": "Programming Challenge for TAXI",
   "scripts": {
 	"emitter": "./emitter.js 2900",
 	"service": "./service.js 2900 8000"
